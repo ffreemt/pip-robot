@@ -12,12 +12,6 @@ from pip_robot.run_cmd import run_cmd
 logzero.loglevel(loglevel())
 
 app = typer.Typer(
-    name="ezbee",
-    add_completion=False,
-    help="en-zh-bee aligner",
-)
-
-app = typer.Typer(
     name="pip-robot",
     add_completion=False,
     help="pip install robot",
