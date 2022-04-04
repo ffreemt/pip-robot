@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pip_robot"
-version = "0.1.0-alpha.2"
+version = "0.1.0-alpha.3"
 description = "pack_name descr "
 authors = ["ffreemt"]
 license = "MIT"
@@ -13,6 +13,7 @@ logzero = "^1.7.0"
 icecream = "^2.1.1"
 install = "^1.3.5"
 typer = "^0.4.1"
+environs = "^9.5.0"
 
 [tool.poe.executor]
 type = "poetry"

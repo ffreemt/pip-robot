@@ -1,38 +1,21 @@
 """Prep __main__ entry."""
-# pylint: disable=invalid-name
 from typing import List, Optional
 
+from install import install
 import logzero
 from logzero import logger
 import typer
-from icecream import ic, install as ic_install
 
-from pip_robot import __version__, pip_robot, loglevel
+from pip_robot import __version__, loglevel
+from pip_robot.run_cmd import run_cmd
 
 logzero.loglevel(loglevel())
-
-ic_install()
-ic.configureOutput(
-    includeContext=True,
-    # outputFunction=logger.info,
-    outputFunction=logger.debug,
-)
-ic.enable()
 
 app = typer.Typer(
     name="ezbee",
     add_completion=False,
     help="en-zh-bee aligner",
 )
-
-
-ic_install()
-ic.configureOutput(
-    includeContext=True,
-    # outputFunction=logger.info,
-    outputFunction=logger.debug,
-)
-ic.enable()
 
 app = typer.Typer(
     name="pip-robot",
@@ -43,9 +26,7 @@ app = typer.Typer(
 
 def _version_callback(value: bool) -> None:
     if value:
-        typer.echo(
-            f"{app.info.name} v.{__version__}"
-        )
+        typer.echo(f"{app.info.name} v.{__version__}")
         raise typer.Exit()
 
 
@@ -56,6 +37,7 @@ def main(
         metavar="command [args or options]...",
         help="""a command to check against missing pyi packages, typically python foo.py or "python -m bar" (note the quotes) """,
     ),
+    max_try: int = typer.Option(6, "--max-try", "-m", help="Try max_try times."),
     debug: bool = typer.Option(
         False,
         "--debug",
@@ -88,18 +70,42 @@ def main(
     if debug:
         logger.info("debug is on")
         # logzero.loglevel(loglevel(10, force=True))
-        # logzero.loglevel(loglevel(10))
         # logzero.loglevel(loglevel(20, force=True))
+        logzero.loglevel(loglevel(10))
 
     logger.debug("debug")
 
-    typer.echo(f"Your command: {' '.join(command)}")
-    logger.info("Nothing yet... we are working on it.")
+    cmd = " ".join(command)
+    typer.echo(f"Your command: {cmd}")
+    logger.debug("Nothing much yet... we are working on it.")
     # raise NotImplementedError("Coming soon...")
+
+    missing_list = []
+    for _ in range(max_try):
+        try:
+            missing = run_cmd(cmd)
+        except Exception as exc:
+            logger.exception(exc)
+            raise typer.Exit(1)
+
+        if missing:
+            try:
+                logger.info("Installing: %s", missing)
+                install(missing)
+                logger.debug("Done isnstalling: %s", missing)
+                missing_list.append(missing)
+            except Exception as exc:
+                logger.exception(exc)
+                raise typer.Exit(1)
+
+        # nothing missing break
+        if not missing:
+            break
+
+    logger.info("Installed: %s", missing_list)
 
 
 if __name__ == "__main__":
     # set LOGLEVEL=10 or debug or DEBUG to turn on debug
     logger.debug(" debug on (main)")
     app()
-    logger.debug("wont show debug on (main) 1")
