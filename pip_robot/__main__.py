@@ -37,7 +37,7 @@ def main(
         "--debug",
         "-d",
         is_flag=True,
-        help="Turn on debug mode. Note that debug can also be turned by set LOGLEVEL=debug or export LOGLEVEL=debug.",
+        help="Turn on debug mode. Note that debug can also be turned on by 'set LOGLEVEL=debug' or 'export LOGLEVEL=debug'.",
     ),
     version: Optional[bool] = typer.Option(  # pylint: disable=(unused-argument
         None,
