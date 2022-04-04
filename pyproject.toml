@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pip_robot"
-version = "0.1.0-alpha.0"
+version = "0.1.0-alpha.1"
 description = "pack_name descr "
 authors = ["ffreemt"]
 license = "MIT"
@@ -35,6 +35,9 @@ pydocstyle = "^6.1.1"
 # tbump = "^6.3.2"
 poethepoet = "^0.10.0"
 
+[tool.poetry.scripts]
+pip-robot = "pip_robot.__main__:app"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -53,7 +56,7 @@ testpaths = [
 ]
 
 [tool.black]
-skip-string-normalization = 1
+skip-string-normalization = 0
 
 [tool.isort]
 profile = "black"
