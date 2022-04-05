@@ -7,7 +7,13 @@ from logzero import logger
 
 from pip_robot import loglevel
 
-name_mapping = {"pil": "pillow"}
+name_mapping = {
+    "pil": "Pillow",
+    "cv2": "opencv-python",
+    "dotenv": "python-dotenv",
+    "nonebot": "nonebot2",
+    "docx": "python-docx",
+}
 
 
 def run_cmd(
