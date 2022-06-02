@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pip_robot"
+name = "pip-robot"
 version = "0.1.0-alpha.4"
 description = "pack_name descr "
 authors = ["ffreemt"]
