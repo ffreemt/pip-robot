@@ -8,6 +8,7 @@ name_mapping = {
     "nonebot": "nonebot2",
     "opencc": "opencc-python-reimplemented",
     "OpenSSL": "pyOpenSSL",
+    "readability", "readability-lxml",
     "pil": "Pillow",
     "pydispatch": "PyDispatcher",
     "sklearn": "scikit-learn",
